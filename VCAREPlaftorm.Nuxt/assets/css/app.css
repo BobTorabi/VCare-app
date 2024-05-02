@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  /* @font-face {
+    font-family: 'Vazir-Regular-FD';
+    src: url('@/assets/fonts/Vazir-Regular-FD.woff') format('woff');
+
+    font-family: 'Dana-Regular';
+    src: url('@/assets/fonts/Dana-Regular.woff') format('woff'),
+        url("@/assets/fonts/Dana-Regular.woff2") format("woff2"),
+        url("@/assets/fonts/Dana-Regular.ttf") format("ttf");
+  } */
+  body {
+    background: #fcf3e8;
+  }
+
+  svg {
+    display: initial !important;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: transparent !important;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    webkit-box-shadow: none !important;
+    background: transparent !important;
+    opacity: 0.01 !important;
+    display: none !important;
+  }
+
+  ::-webkit-scrollbar-track-piece {
+    background-color: #00ffffff;
+    display: none !important;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 100vh;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #bb133e;
+  }
+}
+
+@layer utilities {
+  .farsi-num {
+    -moz-font-feature-settings: "ss02";
+    -webkit-font-feature-settings: "ss02";
+    font-feature-settings: "ss02";
+  }
+  .rounded-custom-10{
+    border-radius: 10px;
+  }
+  .main-category:nth-child(1n) a{
+    background: #FCB660;
+  }
+  .main-category:nth-child(2n) a{
+    background: #2B99AF;
+  }
+  .main-category:nth-child(3n) a {
+    background: #2DB284;
+  }
+  .main-category:nth-child(4n) a {
+    background: #F7785C;
+  }
+}
