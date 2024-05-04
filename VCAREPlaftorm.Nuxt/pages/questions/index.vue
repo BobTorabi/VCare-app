@@ -16,10 +16,6 @@ const answerFlag = ref(0);
 const lastQuestions = ref(false);
 
 // Logics
-const handleFormSubmit = (form) => {
-
-}
-
 const handleNoButtonClick = () => {
   loading.value = true;
 
@@ -35,14 +31,12 @@ const handleNoButtonClick = () => {
 }
 
 const handleYesButtonClick = (symptomId, symptomType) => {
-  console.log(symptomId);
-  console.log(symptomType);
   if (symptomType == "BodyPart") {
-    router.push("/questions/subGroup");
+    router.push(`/questions/subGroup?bodyPart=` + symptomId);
   } else if (symptomType == "DirectQuestion") {
-    router.push("/questions/answers");
+    router.push("/questions/answers?directId=" + symptomId);
   } else if (symptomType == "SymptomSubgroup") {
-    router.push("/questions/subGroup");
+    router.push(`/questions/subGroup?symptomSubgroup=` + symptomId);
   }
 }
 
