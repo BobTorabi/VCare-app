@@ -41,11 +41,31 @@ export const useQuestions = () => {
     });
     return data;
   };
-  
+
+  // Get Questions For Body Part
+  const GetQuestionsForBodyPart = async (id:any) => {
+    const data = await $fetch(`/Reports/api/GetQuestionsForBodyPart/` + id, {
+      baseURL: config.SERVER_REPORTS_URL,
+      method: "GET",
+    });
+    return data;
+  };
+
+  // Get Questions For Symptom Subgroup
+  const GetQuestionsForSymptomSubgroup = async (id:any) => {
+    const data = await $fetch(`/Reports/api/GetQuestionsForSymptomSubgroup/` + id, {
+      baseURL: config.SERVER_REPORTS_URL,
+      method: "GET",
+    });
+    return data;
+  };
+
   return {
     GetSymptomsAndQuestions,
     GetBodyPartsForMainSymptom,
     GetSymptomSubgroupForMainSymptom,
-    GetQuestionsForDirectQuestions
+    GetQuestionsForDirectQuestions,
+    GetQuestionsForBodyPart,
+    GetQuestionsForSymptomSubgroup
   };
 };
