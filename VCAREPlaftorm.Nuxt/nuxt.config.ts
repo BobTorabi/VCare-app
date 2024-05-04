@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     public: {
       SERVER_CORE_URL: process.env.SERVER_CORE_URL,
       SERVER_IMAGE_URL: process.env.SERVER_IMAGE_URL,
+      SERVER_REPORTS_URL: process.env.SERVER_REPORTS_URL,
     },
   },
   modules: [

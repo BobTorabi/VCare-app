@@ -22,8 +22,8 @@ const route = useRoute();
           My reports
         </p>
       </NuxtLink>
-      <NuxtLink to="/report" class="flex flex-col space-y-0.5 items-center">
-        <span :class="route.path === '/report'
+      <NuxtLink to="/questions" class="flex flex-col space-y-0.5 items-center">
+        <span :class="route.path === '/questions'
           ? 'flex opacity-100 -mt-[58px]'
           : 'flex opacity-100 -mt-[58px]'
           ">

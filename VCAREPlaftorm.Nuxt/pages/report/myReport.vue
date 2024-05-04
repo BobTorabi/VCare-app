@@ -1,4 +1,8 @@
 <script setup>
+definePageMeta({
+  layout: "inner",
+});
+
 // Composables
 const { getAllUserReportByFilter } = useReport();
 

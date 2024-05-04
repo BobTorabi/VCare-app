@@ -4,28 +4,28 @@ const { getUserDetailsById } = useIdentity();
 // States
 const mobileMenu = ref(false);
 const menuItems = [
-  {
-    title: "Home",
-    isParent: true,
-    subMenus: [
-      {
-        title: "Dashboard",
-        linkTo: "/dashboard",
-      },
-      {
-        title: "Home 2",
-        linkTo: "/home2",
-      },
-      {
-        title: "Home 3",
-        linkTo: "/home3",
-      },
-      {
-        title: "Home 4",
-        linkTo: "/home4",
-      },
-    ],
-  },
+  // {
+  //   title: "Home",
+  //   isParent: true,
+  //   subMenus: [
+  //     {
+  //       title: "Dashboard",
+  //       linkTo: "/dashboard",
+  //     },
+  //     {
+  //       title: "Home 2",
+  //       linkTo: "/home2",
+  //     },
+  //     {
+  //       title: "Home 3",
+  //       linkTo: "/home3",
+  //     },
+  //     {
+  //       title: "Home 4",
+  //       linkTo: "/home4",
+  //     },
+  //   ],
+  // },
   {
     title: "Message",
     linkTo: "/message",
@@ -35,8 +35,8 @@ const menuItems = [
     linkTo: "/Library",
   },
   {
-    title: "Take a report",
-    linkTo: "/",
+    title: "Send report",
+    linkTo: "/questions",
   },
   {
     title: "My reports",
