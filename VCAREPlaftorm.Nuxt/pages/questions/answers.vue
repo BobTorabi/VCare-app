@@ -73,12 +73,18 @@ if (route.query.bodyPartId) {
           <div v-for="(item, index) in allQuestions" :key="index"
             class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
             <div class="p-4">
-              {{ item.question.title }}
-              <div v-for="(questionItem, index) in item.question.questionOptions" :key="index" class="mt-4">
-                <input type="radio" name="question" :id="'question-' + questionItem.id" :value="questionItem.id"
-                  class="mr-2" />
+              {{ index + 1 }}- {{ item.question.title }}
+              <div v-for="(questionItem, questionIndex) in item.question.questionOptions" :key="questionIndex"
+                class="mt-4">
+                <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
+                  :value="questionItem.id" class="mr-2" />
                 <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
               </div>
+            </div>
+          </div>
+          <div class="px-4">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer">
+              Submit
             </div>
           </div>
         </div>

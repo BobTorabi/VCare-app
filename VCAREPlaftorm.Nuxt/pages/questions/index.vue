@@ -67,7 +67,10 @@ handleGetSymptomsAndQuestions();
       <SharedLoading v-if="loading" class="mb-6" />
       <div v-if="!loading" class="p-4">
         <div v-if="!lastQuestions">
-          <div class="pb-4">{{ allSymptomsAndQuestions[answerFlag].questionTitle }}</div>
+          <div class="pb-4">
+            {{ answerFlag + 1 }}- {{ allSymptomsAndQuestions[answerFlag].questionTitle
+            }}
+          </div>
           <div class="flex gap-6">
             <button
               class="text-[#00ab10] border-[#00ab10] border w-full rounded-lg text-center p-3 mt-4 flex gap-2 justify-center"
