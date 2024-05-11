@@ -43,12 +43,11 @@ export const useQuestions = () => {
   };
 
   // Get Questions For Body Part
-  const GetQuestionsForBodyParts = async (id:any) => {
-    const data = await $fetch(`/Reports/api/GetQuestionsForBodyParts`, {
+  const GetQuestionsForBodyParts = async (form:any) => {
+    const data = await $fetch(`/Reports/api/GetQuestionsForBodyParts?` + form, {
       baseURL: config.SERVER_REPORTS_URL,
-      method: "POST",
-      body: id
-    });
+      method: "GET",
+    });    
     return data;
   };
 

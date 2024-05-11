@@ -14,7 +14,17 @@ const allQuestions = ref("");
 
 // Logics
 const handleGetQuestionsForBodyParts = () => {
-  GetQuestionsForBodyParts(route.query.bodyPartId)
+
+  let bodyPartIdItem = route.query.bodyPartId;
+  let bodyPartIdItems = bodyPartIdItem.split(',');
+
+  let convertedItem;
+  if (Array.isArray(bodyPartIdItems)) {
+    convertedItem = bodyPartIdItems.map(id => `&bodypartids=${id}`);
+  }
+  let result = convertedItem.join('');
+
+  GetQuestionsForBodyParts(result)
     .then(async (r) => {
       if (r) {
         errMessage.value = null;
