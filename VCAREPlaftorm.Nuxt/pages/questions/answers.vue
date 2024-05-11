@@ -16,15 +16,12 @@ const allQuestions = ref("");
 const handleGetQuestionsForBodyParts = () => {
 
   let bodyPartIdItem = route.query.bodyPartId;
+  console.log(bodyPartIdItem);
+
   let bodyPartIdItems = bodyPartIdItem.split(',');
+  console.log(bodyPartIdItems);
 
-  let convertedItem;
-  if (Array.isArray(bodyPartIdItems)) {
-    convertedItem = bodyPartIdItems.map(id => `&bodypartids=${id}`);
-  }
-  let result = convertedItem.join('');
-
-  GetQuestionsForBodyParts(result)
+  GetQuestionsForBodyParts(bodyPartIdItems)
     .then(async (r) => {
       if (r) {
         errMessage.value = null;

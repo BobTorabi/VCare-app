@@ -44,10 +44,11 @@ export const useQuestions = () => {
 
   // Get Questions For Body Part
   const GetQuestionsForBodyParts = async (form:any) => {
-    const data = await $fetch(`/Reports/api/GetQuestionsForBodyParts?` + form, {
+    const data = await $fetch(`/Reports/api/GetQuestionsForBodyParts`, {
       baseURL: config.SERVER_REPORTS_URL,
-      method: "GET",
-    });    
+      method: "POST",
+      body: form
+    });
     return data;
   };
 
