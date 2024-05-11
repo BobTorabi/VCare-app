@@ -43,10 +43,11 @@ export const useQuestions = () => {
   };
 
   // Get Questions For Body Part
-  const GetQuestionsForBodyPart = async (id:any) => {
-    const data = await $fetch(`/Reports/api/GetQuestionsForBodyPart/` + id, {
+  const GetQuestionsForBodyParts = async (id:any) => {
+    const data = await $fetch(`/Reports/api/GetQuestionsForBodyParts`, {
       baseURL: config.SERVER_REPORTS_URL,
-      method: "GET",
+      method: "POST",
+      body: id
     });
     return data;
   };
@@ -65,7 +66,7 @@ export const useQuestions = () => {
     GetBodyPartsForMainSymptom,
     GetSymptomSubgroupForMainSymptom,
     GetQuestionsForDirectQuestions,
-    GetQuestionsForBodyPart,
+    GetQuestionsForBodyParts,
     GetQuestionsForSymptomSubgroup
   };
 };

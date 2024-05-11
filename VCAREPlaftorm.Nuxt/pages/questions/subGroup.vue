@@ -5,6 +5,7 @@ definePageMeta({
 
 // Composables
 const route = useRoute();
+const router = useRouter();
 const { GetBodyPartsForMainSymptom, GetSymptomSubgroupForMainSymptom } = useQuestions();
 
 // States
@@ -66,6 +67,11 @@ if (route.query.bodyPart) {
   handleGetSymptomSubgroupForMainSymptom();
 }
 
+// click On Continue
+const clickOnContinue = () => {
+  router.push("/questions/answers?bodyPartId=" + activeItems.value);
+}
+
 </script>
 <template>
   <div class="pb-[100px]">
@@ -87,7 +93,8 @@ if (route.query.bodyPart) {
             </div>
           </div>
           <div class="">
-            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
+              @click="clickOnContinue()">
               Continue
             </div>
           </div>

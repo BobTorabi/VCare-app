@@ -5,7 +5,7 @@ definePageMeta({
 
 // Composables
 const route = useRoute();
-const { GetQuestionsForBodyPart, GetQuestionsForDirectQuestions, GetQuestionsForSymptomSubgroup } = useQuestions();
+const { GetQuestionsForBodyParts, GetQuestionsForDirectQuestions, GetQuestionsForSymptomSubgroup } = useQuestions();
 
 // States
 const loading = ref(true);
@@ -13,8 +13,8 @@ const errMessage = ref();
 const allQuestions = ref("");
 
 // Logics
-const handleGetQuestionsForBodyPart = () => {
-  GetQuestionsForBodyPart(route.query.bodyPartId)
+const handleGetQuestionsForBodyParts = () => {
+  GetQuestionsForBodyParts(route.query.bodyPartId)
     .then(async (r) => {
       if (r) {
         errMessage.value = null;
@@ -51,7 +51,7 @@ const handleGetQuestionsForSymptomSubgroup = () => {
 
 // select route query
 if (route.query.bodyPartId) {
-  handleGetQuestionsForBodyPart();
+  handleGetQuestionsForBodyParts();
 } else if (route.query.symptomSubgroupId) {
   handleGetQuestionsForSymptomSubgroup();
 } else if (route.query.directId) {
