@@ -72,6 +72,11 @@ const clickOnContinue = () => {
   router.push("/questions/answers?bodyPartId=" + activeItems.value);
 }
 
+// click On Continue 2
+const clickOnContinue2 = () => {
+  router.push("/questions/answers?symptomSubgroupId=" + activeItems.value);
+}
+
 </script>
 <template>
   <div class="pb-[100px]">
@@ -101,11 +106,18 @@ const clickOnContinue = () => {
         </div>
         <div v-else-if="AllSymptom">
           Please select the symptom:
-          <div v-for="(item, index) in AllSymptom" :key="index" class="main-category">
-            <NuxtLink :to="'/questions/answers?symptomSubgroupId=' + item.id"
-              class="block text-center items-center font-bold bg-color-sec text-white rounded-custom-10 py-6 px-2 mt-4">
+          <div class="grid grid-cols-2 gap-4 mt-4 ">
+            <div v-for="(item, index) in AllSymptom" :key="index"
+              class="block text-center place-content-center font-bold border border-color-pri rounded-custom-10 py-6 px-2 min-h-[90px] cursor-pointer"
+              @click="clickOnItems(item.id)" :class="{ 'active': activeItems.includes(item.id) }">
               {{ item.title }}
-            </NuxtLink>
+            </div>
+          </div>
+          <div class="">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
+              @click="clickOnContinue2()">
+              Continue
+            </div>
           </div>
         </div>
       </div>

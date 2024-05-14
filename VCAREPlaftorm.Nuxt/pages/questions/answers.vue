@@ -5,7 +5,7 @@ definePageMeta({
 
 // Composables
 const route = useRoute();
-const { GetQuestionsForBodyParts, GetQuestionsForDirectQuestions, GetQuestionsForSymptomSubgroup } = useQuestions();
+const { GetQuestionsForBodyParts, GetQuestionsForDirectQuestions, GetQuestionsForSymptomSubGroups } = useQuestions();
 
 // States
 const loading = ref(true);
@@ -14,13 +14,8 @@ const allQuestions = ref("");
 
 // Logics
 const handleGetQuestionsForBodyParts = () => {
-
   let bodyPartIdItem = route.query.bodyPartId;
-  console.log(bodyPartIdItem);
-
   let bodyPartIdItems = bodyPartIdItem.split(',');
-  console.log(bodyPartIdItems);
-
   GetQuestionsForBodyParts(bodyPartIdItems)
     .then(async (r) => {
       if (r) {
@@ -44,8 +39,10 @@ const handleGetQuestionsForDirectQuestions = () => {
     .finally(() => loading.value = false);
 }
 
-const handleGetQuestionsForSymptomSubgroup = () => {
-  GetQuestionsForSymptomSubgroup(route.query.symptomSubgroupId)
+const handleGetQuestionsForSymptomSubGroups = () => {
+  let symptomSubgroupIdItem = route.query.symptomSubgroupId;
+  let symptomSubgroupIdItems = symptomSubgroupIdItem.split(',');
+  GetQuestionsForSymptomSubGroups(symptomSubgroupIdItems)
     .then(async (r) => {
       if (r) {
         errMessage.value = null;
@@ -60,7 +57,7 @@ const handleGetQuestionsForSymptomSubgroup = () => {
 if (route.query.bodyPartId) {
   handleGetQuestionsForBodyParts();
 } else if (route.query.symptomSubgroupId) {
-  handleGetQuestionsForSymptomSubgroup();
+  handleGetQuestionsForSymptomSubGroups();
 } else if (route.query.directId) {
   handleGetQuestionsForDirectQuestions();
 }

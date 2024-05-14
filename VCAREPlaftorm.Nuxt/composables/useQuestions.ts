@@ -53,10 +53,11 @@ export const useQuestions = () => {
   };
 
   // Get Questions For Symptom Subgroup
-  const GetQuestionsForSymptomSubgroup = async (id:any) => {
-    const data = await $fetch(`/Reports/api/GetQuestionsForSymptomSubgroup/` + id, {
+  const GetQuestionsForSymptomSubGroups = async (form:any) => {
+    const data = await $fetch(`/Reports/api/GetQuestionsForSymptomSubGroups/`, {
       baseURL: config.SERVER_REPORTS_URL,
-      method: "GET",
+      method: "POST",
+      body: form
     });
     return data;
   };
@@ -67,6 +68,6 @@ export const useQuestions = () => {
     GetSymptomSubgroupForMainSymptom,
     GetQuestionsForDirectQuestions,
     GetQuestionsForBodyParts,
-    GetQuestionsForSymptomSubgroup
+    GetQuestionsForSymptomSubGroups
   };
 };
