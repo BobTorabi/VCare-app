@@ -10,7 +10,9 @@ const { GetQuestionsForBodyParts, GetQuestionsForDirectQuestions, GetQuestionsFo
 // States
 const loading = ref(true);
 const errMessage = ref();
-const allQuestions = ref("");
+const allQuestionsBodyPart = ref("");
+const allQuestionsDirect = ref("");
+const allQuestionsSymptomSubgroup = ref("");
 
 // Logics
 const handleGetQuestionsForBodyParts = () => {
@@ -20,7 +22,16 @@ const handleGetQuestionsForBodyParts = () => {
     .then(async (r) => {
       if (r) {
         errMessage.value = null;
-        allQuestions.value = await r;
+        let questions = await r;
+
+        const mapItems = {};
+        questions.forEach(item => {
+          if (!mapItems[item.bodyPartName]) {
+            mapItems[item.bodyPartName] = [];
+          }
+          mapItems[item.bodyPartName].push(item);
+        });
+        allQuestionsBodyPart.value = Object.values(mapItems);
       }
     })
     .catch((err) => (errMessage.value = err.data))
@@ -32,7 +43,7 @@ const handleGetQuestionsForDirectQuestions = () => {
     .then(async (r) => {
       if (r) {
         errMessage.value = null;
-        allQuestions.value = await r;
+        allQuestionsDirect.value = await r;
       }
     })
     .catch((err) => (errMessage.value = err.data))
@@ -46,7 +57,16 @@ const handleGetQuestionsForSymptomSubGroups = () => {
     .then(async (r) => {
       if (r) {
         errMessage.value = null;
-        allQuestions.value = await r;
+        let questions = await r;
+
+        const mapItems = {};
+        questions.forEach(item => {
+          if (!mapItems[item.symptomSubgroupName]) {
+            mapItems[item.symptomSubgroupName] = [];
+          }
+          mapItems[item.symptomSubgroupName].push(item);
+        });
+        allQuestionsSymptomSubgroup.value = Object.values(mapItems);
       }
     })
     .catch((err) => (errMessage.value = err.data))
@@ -73,8 +93,32 @@ if (route.query.bodyPartId) {
     <div>
       <SharedLoading v-if="loading" class="mb-6" />
       <div v-if="!loading">
-        <div v-if="allQuestions.length > 0">
-          <div v-for="(item, index) in allQuestions" :key="index"
+        <div v-if="allQuestionsBodyPart.length > 0">
+          <div v-for="(item, index) in allQuestionsBodyPart" :key="index"
+            class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
+            <div class="p-4">
+              <div class="border-b py-1 leading-7 border border-color-aux text-color-aux rounded-custom-10 px-2">
+                <p class="text-center">{{ item[0].bodyPartName }}</p>
+              </div>
+              <div v-for="(subItem, index) in item" :key="index" class="mt-4 border-b pb-4">
+                {{ index + 1 }}- {{ subItem.question.title }}
+                <div v-for="(questionItem, questionIndex) in subItem.question.questionOptions" :key="questionIndex"
+                  class="mt-4">
+                  <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
+                    :value="questionItem.id" class="mr-2" />
+                  <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="px-4">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer">
+              Submit
+            </div>
+          </div>
+        </div>
+        <div v-else-if="allQuestionsDirect.length > 0">
+          <div v-for="(item, index) in allQuestionsDirect" :key="index"
             class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
             <div class="p-4">
               {{ index + 1 }}- {{ item.question.title }}
@@ -83,6 +127,30 @@ if (route.query.bodyPartId) {
                 <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
                   :value="questionItem.id" class="mr-2" />
                 <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
+              </div>
+            </div>
+          </div>
+          <div class="px-4">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer">
+              Submit
+            </div>
+          </div>
+        </div>
+        <div v-else-if="allQuestionsSymptomSubgroup.length > 0">
+          <div v-for="(item, index) in allQuestionsSymptomSubgroup" :key="index"
+            class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
+            <div class="p-4">
+              <div class="border-b py-1 leading-7 border border-color-aux text-color-aux rounded-custom-10 px-2">
+                <p class="text-center">{{ item[0].symptomSubgroupName }}</p>
+              </div>
+              <div v-for="(subItem, index) in item" :key="index" class="mt-4 border-b pb-4">
+                {{ index + 1 }}- {{ subItem.question.title }}
+                <div v-for="(questionItem, questionIndex) in subItem.question.questionOptions" :key="questionIndex"
+                  class="mt-4">
+                  <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
+                    :value="questionItem.id" class="mr-2" />
+                  <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
+                </div>
               </div>
             </div>
           </div>
