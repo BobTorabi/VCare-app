@@ -62,12 +62,23 @@ export const useQuestions = () => {
     return data;
   };
 
+  // Send User Report
+  const SendUserReport = async (form:any) => {
+    const data = await $fetch(`/Reports/api/SendUserReport/`, {
+      baseURL: config.SERVER_REPORTS_URL,
+      method: "POST",
+      body: form
+    });
+    return data;
+  };
+
   return {
     GetSymptomsAndQuestions,
     GetBodyPartsForMainSymptom,
     GetSymptomSubgroupForMainSymptom,
     GetQuestionsForDirectQuestions,
     GetQuestionsForBodyParts,
-    GetQuestionsForSymptomSubGroups
+    GetQuestionsForSymptomSubGroups,
+    SendUserReport
   };
 };

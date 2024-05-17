@@ -5,7 +5,9 @@ definePageMeta({
 
 // Composables
 const route = useRoute();
-const { GetQuestionsForBodyParts, GetQuestionsForDirectQuestions, GetQuestionsForSymptomSubGroups } = useQuestions();
+const router = useRouter();
+const { authUser } = useAuth();
+const { GetQuestionsForBodyParts, GetQuestionsForDirectQuestions, GetQuestionsForSymptomSubGroups, SendUserReport } = useQuestions();
 
 // States
 const loading = ref(true);
@@ -13,6 +15,12 @@ const errMessage = ref();
 const allQuestionsBodyPart = ref("");
 const allQuestionsDirect = ref("");
 const allQuestionsSymptomSubgroup = ref("");
+const answersArray = ref({
+  userId: authUser.value.id,
+  answers: [],
+  submitDate: ""
+}
+);
 
 // Logics
 const handleGetQuestionsForBodyParts = () => {
@@ -82,6 +90,41 @@ if (route.query.bodyPartId) {
   handleGetQuestionsForDirectQuestions();
 }
 
+const selectAnswer = (questionId, questionCode, selectedAnswerId, selectedAnswerCode) => {
+  const existingResponseIndex = answersArray.value.answers.findIndex((item) => item.questionId === questionId);
+  if (existingResponseIndex !== -1) {
+    answersArray.value.answers[existingResponseIndex] = {
+      questionId: questionId,
+      questionCode: questionCode,
+      selectedAnswerId: selectedAnswerId,
+      selectedAnswerCode: selectedAnswerCode
+    };
+  } else {
+    answersArray.value.answers.push({
+      questionId: questionId,
+      questionCode: questionCode,
+      selectedAnswerId: selectedAnswerId,
+      selectedAnswerCode: selectedAnswerCode
+    });
+  }
+  answersArray.value.submitDate = new Date().toISOString();
+}
+
+const handleSendUserReport = () => {
+  SendUserReport(answersArray.value)
+    .then(async (r) => {
+      if (r) {
+        errMessage.value = null;
+        let questions = await r;
+        if (questions) {
+          router.push(`/questions/result`);
+        }
+      }
+    })
+    .catch((err) => (errMessage.value = err.data))
+    .finally(() => loading.value = false);
+}
+
 </script>
 <template>
   <div class="pb-[100px]">
@@ -105,14 +148,16 @@ if (route.query.bodyPartId) {
                 <div v-for="(questionItem, questionIndex) in subItem.question.questionOptions" :key="questionIndex"
                   class="mt-4">
                   <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
-                    :value="questionItem.id" class="mr-2" />
+                    :value="questionItem.id" class="mr-2"
+                    @change="selectAnswer(subItem.question.id, subItem.question.code, questionItem.id, questionItem.code)" />
                   <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
                 </div>
               </div>
             </div>
           </div>
           <div class="px-4">
-            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
+              @click="handleSendUserReport()">
               Submit
             </div>
           </div>
@@ -125,13 +170,15 @@ if (route.query.bodyPartId) {
               <div v-for="(questionItem, questionIndex) in item.question.questionOptions" :key="questionIndex"
                 class="mt-4">
                 <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
-                  :value="questionItem.id" class="mr-2" />
+                  :value="questionItem.id" class="mr-2"
+                  @change="selectAnswer(item.question.id, item.question.code, questionItem.id, questionItem.code)" />
                 <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
               </div>
             </div>
           </div>
           <div class="px-4">
-            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
+              @click="handleSendUserReport()">
               Submit
             </div>
           </div>
@@ -148,14 +195,16 @@ if (route.query.bodyPartId) {
                 <div v-for="(questionItem, questionIndex) in subItem.question.questionOptions" :key="questionIndex"
                   class="mt-4">
                   <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
-                    :value="questionItem.id" class="mr-2" />
+                    :value="questionItem.id" class="mr-2"
+                    @change="selectAnswer(subItem.question.id, subItem.question.code, questionItem.id, questionItem.code)" />
                   <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
                 </div>
               </div>
             </div>
           </div>
           <div class="px-4">
-            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
+              @click="handleSendUserReport()">
               Submit
             </div>
           </div>
