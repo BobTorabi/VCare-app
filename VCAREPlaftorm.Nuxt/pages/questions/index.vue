@@ -6,6 +6,8 @@ definePageMeta({
 // Composables
 const router = useRouter();
 const { GetSymptomsAndQuestions } = useQuestions();
+const cookieStep = useCookie("userStep");
+const { authStep } = useAuth();
 
 // States
 const loading = ref(true);
@@ -14,10 +16,13 @@ const allSymptomsAndQuestions = ref('');
 const countQuestions = ref(0);
 const answerFlag = ref(0);
 const lastQuestions = ref(false);
+cookieStep.value = 1;
 
 // Logics
 const handleNoButtonClick = () => {
   loading.value = true;
+  cookieStep.value = cookieStep.value + 1;
+  authStep.value = cookieStep.value;
 
   if (answerFlag.value < countQuestions.value - 1) {
     answerFlag.value++;
@@ -56,6 +61,7 @@ const handleGetSymptomsAndQuestions = () => {
 handleGetSymptomsAndQuestions();
 
 </script>
+
 <template>
   <div class="pb-[140px]">
 
