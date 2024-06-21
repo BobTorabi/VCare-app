@@ -4,12 +4,37 @@ definePageMeta({
 });
 
 // Composables
+const { GetSymptomsAndQuestions } = useQuestions();
 const route = useRoute();
 
 // States
 const loading = ref(false);
+const errMessage = ref();
+const cookieStep = useCookie("userStep");
+const countQuestions = ref(0);
+const lastQuestions = ref(false);
 
 // Logics
+// Get Symptoms And Questions
+const handleGetSymptomsAndQuestions = () => {
+  GetSymptomsAndQuestions()
+    .then(async (r) => {
+      if (r) {
+        errMessage.value = null;
+        countQuestions.value = await r.length;
+
+        if (cookieStep.value < countQuestions.value - 1) {
+          cookieStep.value = cookieStep.value + 1;
+        } else {
+          lastQuestions.value = true;
+        }
+
+      }
+    })
+    .catch((err) => (errMessage.value = err.data))
+    .finally(() => loading.value = false);
+}
+handleGetSymptomsAndQuestions();
 
 </script>
 <template>
@@ -29,7 +54,8 @@ const loading = ref(false);
         </div>
 
         <div class="flex mt-4 flex-col">
-          <NuxtLink to="/questions" class="border border-color-pri text-color-pri w-full rounded-lg text-center py-3">
+          <NuxtLink to="/questions" class="border border-color-pri text-color-pri w-full rounded-lg text-center py-3"
+            v-if="!lastQuestions">
             Add other symptoms
           </NuxtLink>
           <NuxtLink :to="`/`">

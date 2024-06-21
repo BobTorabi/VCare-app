@@ -14,8 +14,9 @@ const emit = defineEmits(["modelValue"]);
 // Composables
 const cookieToken = useCookie('userToken');
 const cookieUser = useCookie("userDetails");
+const cookieStep = useCookie("userStep");
 const router = useRouter();
-const { authToken, authUser } = useAuth();
+const { authToken, authUser, authStep } = useAuth();
 
 // States
 const toggleItem = ref();
@@ -33,8 +34,9 @@ const toggleSubMenu = (index) => {
 const logout = async () => {
   cookieToken.value = await null;
   authToken.value = await null;
+  authStep.value = await null;
   cookieUser.value = await null;
-  authUser.value = await null;
+  cookieStep.value = await null;
   router.push("/");
 };
 </script>

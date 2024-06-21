@@ -5,11 +5,13 @@ definePageMeta({
 
 // Composables
 const { getLastArticle } = useLibrary();
+const cookieStep = useCookie("userStep");
 
 // States
 const loading = ref(false);
 const errMessage = ref();
 const posts = ref();
+cookieStep.value = 0;
 
 // Logics
 getLastArticle()
@@ -81,7 +83,7 @@ const slides = [
         </NuxtLink>
 
       </template>
-    </div> -->
+</div> -->
 
     <NuxtLink to="/report">
       <div class="shadow-md bg-color-aux text-white rounded-custom-10 mx-3 px-5 py-4 mt-4">

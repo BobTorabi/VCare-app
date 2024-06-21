@@ -7,27 +7,25 @@ definePageMeta({
 const router = useRouter();
 const { GetSymptomsAndQuestions } = useQuestions();
 const cookieStep = useCookie("userStep");
-const { authStep } = useAuth();
 
 // States
 const loading = ref(true);
 const errMessage = ref();
 const allSymptomsAndQuestions = ref('');
 const countQuestions = ref(0);
-const answerFlag = ref(0);
 const lastQuestions = ref(false);
-cookieStep.value = 1;
+const firstQuestions = ref(true);
 
 // Logics
 const handleNoButtonClick = () => {
   loading.value = true;
-  cookieStep.value = cookieStep.value + 1;
-  authStep.value = cookieStep.value;
+  firstQuestions.value = false;
 
-  if (answerFlag.value < countQuestions.value - 1) {
-    answerFlag.value++;
+  if (cookieStep.value < countQuestions.value - 1) {
+    cookieStep.value = cookieStep.value + 1;
   } else {
     lastQuestions.value = true;
+    firstQuestions.value = true;
   }
 
   setTimeout(() => {
@@ -43,6 +41,19 @@ const handleYesButtonClick = (symptomId, symptomType) => {
   } else if (symptomType == "SymptomSubgroup") {
     router.push(`/questions/subGroup?symptomSubgroup=` + symptomId);
   }
+}
+
+const handleBackButtonClick = () => {
+  loading.value = true;
+  cookieStep.value = cookieStep.value - 1;
+
+  if (cookieStep.value == 0) {
+    firstQuestions.value = true;
+  }
+
+  setTimeout(() => {
+    loading.value = false;
+  }, 500);
 }
 
 // Get Symptoms And Questions
@@ -74,14 +85,13 @@ handleGetSymptomsAndQuestions();
       <div v-if="!loading" class="p-4">
         <div v-if="!lastQuestions">
           <div class="pb-4">
-            {{ answerFlag + 1 }}- {{ allSymptomsAndQuestions[answerFlag].questionTitle
-            }}
+            {{ cookieStep + 1 }}- {{ allSymptomsAndQuestions[cookieStep].questionTitle }}
           </div>
           <div class="flex gap-6">
             <button
               class="text-[#00ab10] border-[#00ab10] border w-full rounded-lg text-center p-3 mt-4 flex gap-2 justify-center"
               type="submit"
-              @click="handleYesButtonClick(allSymptomsAndQuestions[answerFlag].symptomId, allSymptomsAndQuestions[answerFlag].symptomType)">
+              @click="handleYesButtonClick(allSymptomsAndQuestions[cookieStep].symptomId, allSymptomsAndQuestions[cookieStep].symptomType)">
               <span>Yes</span>
               <span><img src="~/assets/images/question_true.png" class="mx-auto" alt="" /></span>
             </button>
@@ -106,6 +116,13 @@ handleGetSymptomsAndQuestions();
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="flex gap-2 justify-end" v-if="!firstQuestions">
+      <button class="bg-color-pri text-white border w-20 m-4 rounded-lg py-2 px-3 mt-4" type="submit"
+        @click="handleBackButtonClick">
+        <span>Back</span>
+      </button>
     </div>
 
   </div>
