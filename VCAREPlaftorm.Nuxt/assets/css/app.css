@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
+
   /* @font-face {
     font-family: 'Vazir-Regular-FD';
     src: url('@/assets/fonts/Vazir-Regular-FD.woff') format('woff');
@@ -12,7 +14,7 @@
         url("@/assets/fonts/Dana-Regular.ttf") format("ttf");
   } */
   body {
-    background: #fcf3e8;
+    background: #4cd8df;
   }
 
   svg {
@@ -62,18 +64,23 @@
     -webkit-font-feature-settings: "ss02";
     font-feature-settings: "ss02";
   }
-  .rounded-custom-10{
+
+  .rounded-custom-10 {
     border-radius: 10px;
   }
-  .main-category:nth-child(1n) a{
+
+  .main-category:nth-child(1n) a {
     background: #FCB660;
   }
-  .main-category:nth-child(2n) a{
+
+  .main-category:nth-child(2n) a {
     background: #2B99AF;
   }
+
   .main-category:nth-child(3n) a {
     background: #2DB284;
   }
+
   .main-category:nth-child(4n) a {
     background: #F7785C;
   }

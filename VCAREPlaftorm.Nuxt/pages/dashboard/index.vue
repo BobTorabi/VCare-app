@@ -85,8 +85,8 @@ const slides = [
       </template>
 </div> -->
 
-    <NuxtLink to="/report">
-      <div class="shadow-md bg-color-aux text-white rounded-custom-10 mx-3 px-5 py-4 mt-4">
+    <NuxtLink to="/questions">
+      <div class="shadow-md bg-color-pri text-white rounded-custom-10 mx-3 px-5 py-4 mt-4">
         <p class="text-base flex leading-7">
           <NuxtIcon name="reader-outline" filled="" class="mr-2" />
           Take your today's report

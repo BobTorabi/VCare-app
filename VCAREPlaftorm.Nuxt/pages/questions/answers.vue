@@ -15,6 +15,9 @@ const errMessage = ref();
 const allQuestionsBodyPart = ref("");
 const allQuestionsDirect = ref("");
 const allQuestionsSymptomSubgroup = ref("");
+
+const counterBodyPart = ref(1);
+
 const answersArray = ref({
   userId: authUser.value.id,
   answers: [],
@@ -30,16 +33,16 @@ const handleGetQuestionsForBodyParts = () => {
     .then(async (r) => {
       if (r) {
         errMessage.value = null;
-        let questions = await r;
+        allQuestionsBodyPart.value = await r;
 
-        const mapItems = {};
-        questions.forEach(item => {
-          if (!mapItems[item.bodyPartName]) {
-            mapItems[item.bodyPartName] = [];
-          }
-          mapItems[item.bodyPartName].push(item);
-        });
-        allQuestionsBodyPart.value = Object.values(mapItems);
+        // const mapItems = {};
+        // questions.forEach(item => {
+        //   if (!mapItems[item.bodyPartName]) {
+        //     mapItems[item.bodyPartName] = [];
+        //   }
+        //   mapItems[item.bodyPartName].push(item);
+        // });
+        // allQuestionsBodyPart.value = Object.values(mapItems);
       }
     })
     .catch((err) => (errMessage.value = err.data))
@@ -140,19 +143,21 @@ const handleSendUserReport = () => {
           <div v-for="(item, index) in allQuestionsBodyPart" :key="index"
             class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
             <div class="p-4">
-              <div class="border-b py-1 leading-7 border border-color-aux text-color-aux rounded-custom-10 px-2">
-                <p class="text-center">{{ item[0].bodyPartName }}</p>
-              </div>
-              <div v-for="(subItem, index) in item" :key="index" class="mt-4 border-b pb-4">
-                {{ index + 1 }}- {{ subItem.question.title }}
-                <div v-for="(questionItem, questionIndex) in subItem.question.questionOptions" :key="questionIndex"
+
+              <div class="pb-4">
+                <div class="border-b py-1 leading-7 border border-color-aux text-color-aux rounded-custom-10 px-2 mb-4">
+                  <p class="text-center">{{ item.bodyPartName }}</p>
+                </div>
+                {{ index + 1 }}- {{ item.question.title }}
+                <div v-for="(questionItem, questionIndex) in item.question.questionOptions" :key="questionIndex"
                   class="mt-4">
                   <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
                     :value="questionItem.id" class="mr-2"
-                    @change="selectAnswer(subItem.question.id, subItem.question.code, questionItem.id, questionItem.code)" />
+                    @change="selectAnswer(item[counterBodyPart].question.id, item[counterBodyPart].question.code, questionItem.id, questionItem.code)" />
                   <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
                 </div>
               </div>
+
             </div>
           </div>
           <div class="px-4">
