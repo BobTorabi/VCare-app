@@ -16,7 +16,7 @@ module.exports = {
         "brand-blue-dark": "#001434",
         "brand-blue-light": "#2766C5",
 
-        "color-green": "#345C64",
+        "color-green": "#32e19f",
         "color-body": "#FCF3E8",
         "color-neu": "#808080",
         "color-neu-dark": "#375C63",
