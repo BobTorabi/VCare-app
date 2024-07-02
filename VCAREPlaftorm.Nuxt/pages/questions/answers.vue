@@ -12,9 +12,9 @@ const { GetQuestionsForBodyParts, GetQuestionsForDirectQuestions, GetQuestionsFo
 // States
 const loading = ref(true);
 const errMessage = ref();
-const allQuestionsBodyPart = ref("");
-const allQuestionsDirect = ref("");
-const allQuestionsSymptomSubgroup = ref("");
+const allQuestionsBodyPart = ref([]);
+const allQuestionsDirect = ref([]);
+const allQuestionsSymptomSubgroup = ref([]);
 
 const counterBodyPart = ref(0);
 
@@ -128,6 +128,18 @@ const handleSendUserReport = () => {
     .finally(() => loading.value = false);
 }
 
+const nextButton = () => {
+  if (counterBodyPart.value < allQuestionsBodyPart.value.length) {
+    counterBodyPart.value = counterBodyPart.value + 1;
+  }
+}
+
+const previousButton = () => {
+  if (counterBodyPart.value > 0) {
+    counterBodyPart.value = counterBodyPart.value - 1;
+  }
+}
+
 </script>
 <template>
   <div class="pb-[100px]">
@@ -140,30 +152,39 @@ const handleSendUserReport = () => {
       <SharedLoading v-if="loading" class="mb-6" />
       <div v-if="!loading">
         <div v-if="allQuestionsBodyPart.length > 0">
-          <div v-for="(item, index) in allQuestionsBodyPart" :key="index"
-            class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
+          <div class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
             <div class="p-4">
 
-              <div class="pb-4">
-                <div class="border-b py-1 leading-7 border border-color-aux text-color-aux rounded-custom-10 px-2 mb-4">
-                  <p class="text-center">{{ item.bodyPartName }}</p>
+              <div class="border-b py-1 leading-7 border border-color-aux text-color-aux rounded-custom-10 px-2 mb-4">
+                <p class="text-center">{{ allQuestionsBodyPart[counterBodyPart].bodyPartName }}</p>
+              </div>
+              {{ counterBodyPart + 1 }}- {{ allQuestionsBodyPart[counterBodyPart].question.title }}
+              <div v-for="(questionItem, questionIndex) in allQuestionsBodyPart[counterBodyPart].question.questionOptions"
+                :key="questionIndex" class="mt-4">
+                <input type="radio" :name="'question-' + counterBodyPart" :id="'question-' + questionItem.id"
+                  :value="questionItem.id" class="mr-2"
+                  @change="selectAnswer(allQuestionsBodyPart[counterBodyPart].question.id, allQuestionsBodyPart[counterBodyPart].question.code, questionItem.id, questionItem.code)" />
+                <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
+              </div>
+              <div class="flex gap-2 mt-2 justify-end">
+                <div class="border border-color-pri text-color-pri rounded-lg text-center p-3 mt-4 block cursor-pointer"
+                  @click="previousButton()" v-if="counterBodyPart > 0">
+                  Previous
                 </div>
-                {{ counterBodyPart + 1 }}- {{ item.question.title }}
-                <div v-for="(questionItem, questionIndex) in item.question.questionOptions" :key="questionIndex"
-                  class="mt-4">
-                  <input type="radio" :name="'question-' + counterBodyPart" :id="'question-' + questionItem.id"
-                    :value="questionItem.id" class="mr-2"
-                    @change="selectAnswer(item[counterBodyPart].question.id, item[counterBodyPart].question.code, questionItem.id, questionItem.code)" />
-                  <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
-                </div>
+                <template v-if="counterBodyPart < allQuestionsBodyPart.length - 1">
+                  <div class="bg-color-pri text-white rounded-lg text-center p-3 mt-4 block cursor-pointer"
+                    @click="nextButton()">
+                    Next
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="bg-color-pri text-white rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
+                    @click="handleSendUserReport()">
+                    Submit
+                  </div>
+                </template>
               </div>
 
-            </div>
-          </div>
-          <div class="px-4">
-            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
-              @click="handleSendUserReport()">
-              Submit
             </div>
           </div>
         </div>
