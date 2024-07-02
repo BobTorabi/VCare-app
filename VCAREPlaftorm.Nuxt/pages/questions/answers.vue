@@ -16,7 +16,7 @@ const allQuestionsBodyPart = ref("");
 const allQuestionsDirect = ref("");
 const allQuestionsSymptomSubgroup = ref("");
 
-const counterBodyPart = ref(1);
+const counterBodyPart = ref(0);
 
 const answersArray = ref({
   userId: authUser.value.id,
@@ -148,10 +148,10 @@ const handleSendUserReport = () => {
                 <div class="border-b py-1 leading-7 border border-color-aux text-color-aux rounded-custom-10 px-2 mb-4">
                   <p class="text-center">{{ item.bodyPartName }}</p>
                 </div>
-                {{ index + 1 }}- {{ item.question.title }}
+                {{ counterBodyPart + 1 }}- {{ item.question.title }}
                 <div v-for="(questionItem, questionIndex) in item.question.questionOptions" :key="questionIndex"
                   class="mt-4">
-                  <input type="radio" :name="'question-' + index" :id="'question-' + questionItem.id"
+                  <input type="radio" :name="'question-' + counterBodyPart" :id="'question-' + questionItem.id"
                     :value="questionItem.id" class="mr-2"
                     @change="selectAnswer(item[counterBodyPart].question.id, item[counterBodyPart].question.code, questionItem.id, questionItem.code)" />
                   <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>

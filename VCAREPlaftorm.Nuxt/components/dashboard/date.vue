@@ -15,7 +15,7 @@ onMounted(() =>
 );
 </script>
 <template>
-  <div class="text-center text-color-green">
+  <div class="text-center text-white">
     <p>
       <b class="mx-1">
         <NuxtTime :datetime="date" day="numeric" />
