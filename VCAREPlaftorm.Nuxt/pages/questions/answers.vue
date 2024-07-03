@@ -140,6 +140,15 @@ const previousButton = () => {
   }
 }
 
+// const counterBodyPart = ref(8);
+// const reversedCounter = computed(() => {
+//   const counterArray = [];
+//   for (let i = counterBodyPart.value; i > 0; i--) {
+//     counterArray.push(i);
+//   }
+//   return counterArray;
+// })
+
 </script>
 <template>
   <div class="pb-[100px]">
@@ -151,6 +160,11 @@ const previousButton = () => {
     <div>
       <SharedLoading v-if="loading" class="mb-6" />
       <div v-if="!loading">
+
+        <!-- <div v-for="index in reversedCounter" :key="index">
+          X = {{ index }}
+        </div> -->
+
         <div v-if="allQuestionsBodyPart.length > 0">
           <div class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
             <div class="p-4">
@@ -159,7 +173,8 @@ const previousButton = () => {
                 <p class="text-center">{{ allQuestionsBodyPart[counterBodyPart].bodyPartName }}</p>
               </div>
               {{ counterBodyPart + 1 }}- {{ allQuestionsBodyPart[counterBodyPart].question.title }}
-              <div v-for="(questionItem, questionIndex) in allQuestionsBodyPart[counterBodyPart].question.questionOptions"
+              <div
+                v-for="(questionItem, questionIndex) in allQuestionsBodyPart[counterBodyPart].question.questionOptions"
                 :key="questionIndex" class="mt-4">
                 <input type="radio" :name="'question-' + counterBodyPart" :id="'question-' + questionItem.id"
                   :value="questionItem.id" class="mr-2"
