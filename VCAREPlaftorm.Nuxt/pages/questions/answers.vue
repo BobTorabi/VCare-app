@@ -173,8 +173,7 @@ const previousButton = () => {
                 <p class="text-center">{{ allQuestionsBodyPart[counterBodyPart].bodyPartName }}</p>
               </div>
               {{ counterBodyPart + 1 }}- {{ allQuestionsBodyPart[counterBodyPart].question.title }}
-              <div
-                v-for="(questionItem, questionIndex) in allQuestionsBodyPart[counterBodyPart].question.questionOptions"
+              <div v-for="(questionItem, questionIndex) in allQuestionsBodyPart[counterBodyPart].question.questionOptions"
                 :key="questionIndex" class="mt-4">
                 <input type="radio" :name="'question-' + counterBodyPart" :id="'question-' + questionItem.id"
                   :value="questionItem.id" class="mr-2"
@@ -199,6 +198,7 @@ const previousButton = () => {
                   </div>
                 </template>
               </div>
+
 
             </div>
           </div>
