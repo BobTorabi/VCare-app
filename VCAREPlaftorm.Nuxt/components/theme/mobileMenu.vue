@@ -15,8 +15,10 @@ const emit = defineEmits(["modelValue"]);
 const cookieToken = useCookie('userToken');
 const cookieUser = useCookie("userDetails");
 const cookieStep = useCookie("userStep");
+const cookieReportDate = useCookie("reportDate");
+const cookieReportCode = useCookie("reportCode");
 const router = useRouter();
-const { authToken, authUser, authStep } = useAuth();
+const { authToken, authUser, authStep, authReportDate, authReportCode } = useAuth();
 
 // States
 const toggleItem = ref();
@@ -35,8 +37,12 @@ const logout = async () => {
   cookieToken.value = await null;
   authToken.value = await null;
   authStep.value = await null;
+  authReportDate.value = await null;
+  authReportCode.value = await null;
   cookieUser.value = await null;
   cookieStep.value = await null;
+  cookieReportDate.value = await null;
+  cookieReportCode.value = await null;
   router.push("/");
 };
 </script>

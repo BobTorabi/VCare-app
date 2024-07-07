@@ -6,8 +6,9 @@ definePageMeta({
 // Composables
 const route = useRoute();
 const router = useRouter();
-const { authUser } = useAuth();
+const { authUser, authReportCode } = useAuth();
 const { GetQuestionsForBodyParts, GetQuestionsForDirectQuestions, GetQuestionsForSymptomSubGroups, SendUserReport } = useQuestions();
+const cookieReportCode = useCookie("reportCode");
 
 // States
 const loading = ref(true);
@@ -20,7 +21,7 @@ const counterBodyPart = ref(0);
 
 const answersArray = ref({
   userId: authUser.value.id,
-  answers: [],
+  submittedAnswers: [],
   submitDate: ""
 }
 );
@@ -94,16 +95,16 @@ if (route.query.bodyPartId) {
 }
 
 const selectAnswer = (questionId, questionCode, selectedAnswerId, selectedAnswerCode) => {
-  const existingResponseIndex = answersArray.value.answers.findIndex((item) => item.questionId === questionId);
+  const existingResponseIndex = answersArray.value.submittedAnswers.findIndex((item) => item.questionId === questionId);
   if (existingResponseIndex !== -1) {
-    answersArray.value.answers[existingResponseIndex] = {
+    answersArray.value.submittedAnswers[existingResponseIndex] = {
       questionId: questionId,
       questionCode: questionCode,
       selectedAnswerId: selectedAnswerId,
       selectedAnswerCode: selectedAnswerCode
     };
   } else {
-    answersArray.value.answers.push({
+    answersArray.value.submittedAnswers.push({
       questionId: questionId,
       questionCode: questionCode,
       selectedAnswerId: selectedAnswerId,
@@ -111,6 +112,7 @@ const selectAnswer = (questionId, questionCode, selectedAnswerId, selectedAnswer
     });
   }
   answersArray.value.submitDate = new Date().toISOString();
+  answersArray.value.reportCode = authReportCode.value;
 }
 
 const handleSendUserReport = () => {
@@ -118,8 +120,12 @@ const handleSendUserReport = () => {
     .then(async (r) => {
       if (r) {
         errMessage.value = null;
-        let questions = await r;
-        if (questions) {
+        let result = await r;
+        if (result.status) {
+          cookieReportCode.value = result.reportCode;
+          authReportCode.value = cookieReportCode.value;
+        }
+        if (result) {
           router.push(`/questions/result`);
         }
       }
@@ -140,15 +146,6 @@ const previousButton = () => {
   }
 }
 
-// const counterBodyPart = ref(8);
-// const reversedCounter = computed(() => {
-//   const counterArray = [];
-//   for (let i = counterBodyPart.value; i > 0; i--) {
-//     counterArray.push(i);
-//   }
-//   return counterArray;
-// })
-
 </script>
 <template>
   <div class="pb-[100px]">
@@ -160,11 +157,6 @@ const previousButton = () => {
     <div>
       <SharedLoading v-if="loading" class="mb-6" />
       <div v-if="!loading">
-
-        <!-- <div v-for="index in reversedCounter" :key="index">
-          X = {{ index }}
-        </div> -->
-
         <div v-if="allQuestionsBodyPart.length > 0">
           <div class="shadow-md bg-white text-[17px] text-black rounded-custom-10 mx-4 px-2 py-2 mt-4">
             <div class="p-4">
@@ -198,7 +190,6 @@ const previousButton = () => {
                   </div>
                 </template>
               </div>
-
 
             </div>
           </div>

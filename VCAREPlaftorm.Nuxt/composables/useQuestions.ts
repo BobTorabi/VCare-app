@@ -64,10 +64,19 @@ export const useQuestions = () => {
 
   // Send User Report
   const SendUserReport = async (form:any) => {
-    const data = await $fetch(`/Reports/api/SendUserReport/`, {
+    const data = await $fetch(`/Reports/api/SubmitOrUpdateUserReport/`, {
       baseURL: config.SERVER_REPORTS_URL,
       method: "POST",
       body: form
+    });
+    return data;
+  };
+
+  // Get User Reports
+  const GetUserReports = async (userId:any ,startDate:any , endDate:any) => {
+    const data = await $fetch(`/Reports/api/GetUserReports?userId=` + userId + `&from=` + startDate + `&to=`+ endDate, {
+      baseURL: config.SERVER_REPORTS_URL,
+      method: "GET"
     });
     return data;
   };
@@ -79,6 +88,7 @@ export const useQuestions = () => {
     GetQuestionsForDirectQuestions,
     GetQuestionsForBodyParts,
     GetQuestionsForSymptomSubGroups,
-    SendUserReport
+    SendUserReport,
+    GetUserReports
   };
 };

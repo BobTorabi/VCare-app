@@ -5,9 +5,12 @@ definePageMeta({
 
 // Composables
 const { getAllUserReportByFilter } = useReport();
+const { GetUserReports } = useQuestions();
+const { authUser } = useAuth();
 
 const initialValues = reactive({
   startDate: "",
+  endtDate: "",
 });
 
 // States
@@ -21,11 +24,21 @@ const handleFormSubmit = (form) => {
   if (!form.startDate || !form.startDate) {
     errMessage.value = 'Select date is required.'
     return
+  } else if (!form.endtDate || !form.endtDate) {
+    errMessage.value = 'Select date is required.'
+    return
   } else {
-    //console.log(form.startDate);
-    cookiestartDate.value = form.startDate;
-    authstartDate.value = cookiestartDate.value;
-    router.push("/report/body");
+    GetUserReports(uthUser.value.ida, form.startDate, form.endtDate)
+      .then(async (r) => {
+        if (r.status === 200) {
+          errMessage.value = null;
+          allUserReport.value = await r.data;
+        } else if (r.status == 500) {
+          errMessage.value = r.messages[0];
+        }
+      })
+      .catch((err) => (errMessage.value = err.data))
+      .finally(() => loading.value = false);
   }
 }
 
@@ -95,10 +108,10 @@ handleGetAllUserReport();
       </div>
     </div>
 
-    <h1 class="text-center mt-4 mb-2">Fever Chart</h1>
+    <!-- <h1 class="text-center mt-4 mb-2">Fever Chart</h1>
     <div class="shadow-md bg-white font-bold text-[17px] text-black rounded-custom-10 mx-3 px-2 py-2 mt-4">
       <img src="~/assets/images/fever.jpg" />
-    </div>
+    </div> -->
 
   </div>
 </template>
