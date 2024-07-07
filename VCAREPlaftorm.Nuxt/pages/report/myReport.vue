@@ -28,7 +28,7 @@ const handleFormSubmit = (form) => {
     errMessage.value = 'Select date is required.'
     return
   } else {
-    GetUserReports(uthUser.value.ida, form.startDate, form.endtDate)
+    GetUserReports(authUser.value.id, form.startDate, form.endtDate)
       .then(async (r) => {
         if (r.status === 200) {
           errMessage.value = null;
