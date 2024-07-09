@@ -16,6 +16,7 @@ const errMessage = ref();
 const allQuestionsBodyPart = ref([]);
 const allQuestionsDirect = ref([]);
 const allQuestionsSymptomSubgroup = ref([]);
+const tempAnswers = ref({});
 
 const counterBodyPart = ref(0);
 
@@ -169,6 +170,7 @@ const previousButton = () => {
                 :key="questionIndex" class="mt-4">
                 <input type="radio" :name="'question-' + counterBodyPart" :id="'question-' + questionItem.id"
                   :value="questionItem.id" class="mr-2"
+                  v-model="tempAnswers[allQuestionsBodyPart[counterBodyPart].question.id]"
                   @change="selectAnswer(allQuestionsBodyPart[counterBodyPart].question.id, allQuestionsBodyPart[counterBodyPart].question.code, questionItem.id, questionItem.code)" />
                 <label :for="'question-' + questionItem.id">{{ questionItem.title }}</label>
               </div>

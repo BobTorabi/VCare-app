@@ -61,19 +61,19 @@ const finalAnswers = async () => {
       <div v-if="!loading" class="p-4">
         <div class="text-lg mt-1 leading-7">
           <h1>
-            Your report has been received, You can select another symptoms:
+            Your answers succsecfuly saved.
           </h1>
         </div>
 
         <div class="flex mt-4 flex-col">
           <NuxtLink to="/questions" class="border border-color-pri text-color-pri w-full rounded-lg text-center py-3"
             v-if="!lastQuestions">
-            Add and countinue
+            Lets countinue
           </NuxtLink>
-          <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
+          <!-- <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer"
             @click="finalAnswers">
             I`m done, submit my report.
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

@@ -105,12 +105,12 @@ handleGetSymptomsAndQuestions();
         </div>
         <div v-else>
           <div>
-            Today's questions are finished, you can return tomorrow.
+            You successfully answered all the questions for now. You can report your symptoms anytime later.
           </div>
           <div>
             <NuxtLink :to="`/`">
               <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block">
-                Home page
+                Submit report
               </div>
             </NuxtLink>
           </div>
