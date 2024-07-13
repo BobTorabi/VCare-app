@@ -6,7 +6,10 @@ definePageMeta({
 // Composables
 const router = useRouter();
 const { GetSymptomsAndQuestions } = useQuestions();
+const { SendUserReport } = useQuestions();
 const cookieStep = useCookie("userStep");
+const cookieReportCode = useCookie("reportCode");
+const { authUser, authReportCode } = useAuth();
 
 // States
 const loading = ref(true);
@@ -15,6 +18,13 @@ const allSymptomsAndQuestions = ref('');
 const countQuestions = ref(0);
 const lastQuestions = ref(false);
 const firstQuestions = ref(true);
+
+const answersArray = ref({
+  userId: authUser.value.id,
+  submittedAnswers: [],
+  submitDate: ""
+}
+);
 
 // Logics
 const handleNoButtonClick = () => {
@@ -71,6 +81,25 @@ const handleGetSymptomsAndQuestions = () => {
 }
 handleGetSymptomsAndQuestions();
 
+const handleSendUserReport = () => {
+  answersArray.value.submitDate = new Date().toISOString();
+  answersArray.value.reportCode = authReportCode.value;
+  SendUserReport(answersArray.value)
+    .then(async (r) => {
+      if (r) {
+        errMessage.value = null;
+        let result = await r;
+        if (result.status) {
+          cookieReportCode.value = result.reportCode;
+          authReportCode.value = cookieReportCode.value;
+          router.push(`/`);
+        }
+      }
+    })
+    .catch((err) => (errMessage.value = err.data))
+    .finally(() => loading.value = false);
+}
+
 </script>
 
 <template>
@@ -107,12 +136,10 @@ handleGetSymptomsAndQuestions();
           <div>
             You successfully answered all the questions for now. You can report your symptoms anytime later.
           </div>
-          <div>
-            <NuxtLink :to="`/`">
-              <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block">
-                Submit report
-              </div>
-            </NuxtLink>
+          <div @click="handleSendUserReport()">
+            <div class="bg-color-pri text-white w-full rounded-lg text-center p-3 pb-4 mt-4 block cursor-pointer">
+              Submit report
+            </div>
           </div>
         </div>
       </div>
