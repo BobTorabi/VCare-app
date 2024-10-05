@@ -57,13 +57,11 @@ const slides = [
 
     <DashboardDate />
 
-    <NuxtLink to="/message">
-      <div
-        class="shadow-md bg-white text-color-green rounded-custom-10 mx-3 px-5 py-7 mt-4 bg-[url('~/assets/images/message.png')] bg-no-repeat bg-center">
-        <p class="text-xl font-bold">Message</p>
-        <p class="text-base">Welcome to Vcare !</p>
-      </div>
-    </NuxtLink>
+    <div
+      class="shadow-md bg-white text-color-green rounded-custom-10 mx-3 px-5 py-7 mt-4 bg-[url('~/assets/images/message.png')] bg-no-repeat bg-center">
+      <p class="text-xl font-bold">Message</p>
+      <p class="text-base">Welcome to Vcare !</p>
+    </div>
 
     <!-- <div class="shadow-md bg-white text-color-green rounded-custom-10 mx-3 px-5 py-4 mt-4">
       <p class="text-base flex leading-6">
